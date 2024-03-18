@@ -1,4 +1,9 @@
 const router = require('express').Router()
+const {
+  checkPasswordLength,
+  checkUsernameFree,
+  checkUsernameExists
+} = require('./auth-middleware')
 
 // Require `checkUsernameFree`, `checkUsernameExists` and `checkPasswordLength`
 // middleware functions from `auth-middleware.js`. You will need them here!
@@ -26,7 +31,7 @@ const router = require('express').Router()
     "message": "Password must be longer than 3 chars"
   }
  */
-router.post('/register', (req, res, next) => {
+router.post('/register', checkPasswordLength, checkUsernameFree, (req, res, next) => {
   res.json('register')
 })
 
@@ -45,7 +50,7 @@ router.post('/register', (req, res, next) => {
     "message": "Invalid credentials"
   }
  */
-  router.post('/login', (req, res, next) => {
+  router.post('/login', checkUsernameExists, (req, res, next) => {
     res.json('login')
   })
 
